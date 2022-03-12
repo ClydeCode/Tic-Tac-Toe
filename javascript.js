@@ -1,6 +1,8 @@
+const squares = document.querySelectorAll('.column');
+
 const gameboard = (() => {
     let array = [
-        ['', '', ''],
+        ['X', '', ''],
         ['', '', ''],
         ['', '', '']
     ];
@@ -13,7 +15,14 @@ const gameboard = (() => {
 })();
 
 const renderTable = () => {
-    console.log(gameboard.viewArray);
+    let count = 0;
+    gameboard.viewArray.forEach(item => {
+        if (item) {
+            for (let n = 0; n <= 2; n++) {
+                squares.item(count).innerHTML = item[n];
+                count++;
+            };
+        };
+    });
 };
 
-renderTable();

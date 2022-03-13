@@ -26,7 +26,7 @@ body {
     font-size: 5rem;
 }
 
-.table #column1 {
+.table .border {
     border-right: 1px solid black;
     border-left: 1px solid black;
 }

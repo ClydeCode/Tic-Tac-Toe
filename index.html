@@ -7,9 +7,23 @@
     <title>Tic Tac Toe</title>
 </head>
 <body>
-    <div class="wrapper">
+    <p class="title">Tic-Tac-Toe</p>
+    <div class="first-wrapper">
+        <div class="form">
+            <div class="player1">
+                <label for="player1">Player 1</label>
+                <input id="player1" type="text" placeholder="nickname">
+            </div>
+            <div class="player2">
+                <label for="player2">Player 2</label>
+                <input id="player2" type="text" placeholder="nickname">
+            </div>
+            <button id="start-button" onclick="DOM.getInputValue();">Start Game</button>
+        </div>
+    </div>
+    <div class="second-wrapper">
         <div class="text-wrapper">
-            <div class="player" id="player1"></div>
+            <div class="player" id="person1"></div>
         </div>
         <div class="table">
             <div class="row" id="row0">
@@ -29,7 +43,7 @@
             </div>
         </div>
         <div class="text-wrapper">
-            <div class="player" id="player2"></div>
+            <div class="player" id="person2"></div>
         </div>
     </div>
 </body>

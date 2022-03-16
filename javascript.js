@@ -19,11 +19,12 @@ const gameboard = (() => {
 
 })();
 
-const player = (name, symbol) => {
+const player = (id, name, symbol) => {
     let moves = 0;
     let score = 0;
     
     return {
+        id,
         name,
         symbol,
         moves,
@@ -38,22 +39,32 @@ const DOM = (() => {
     const playerNick2 = document.getElementById('player2');
     const playerScore1 = document.getElementById('person1-score');
     const playerScore2 = document.getElementById('person2-score');
+    const winnerIcon = document.querySelector('.winner-icon');
+
+    let playerNickname1, playerNickname2;
+    const nicknames = [playerNickname1, playerNickname2];
 
     const persons = [person1, person2];
+
+    const showWinnerIcon = (id) => {
+        winnerIcon.forEach(icon => {
+            if (id === icon.id) icon.style.visibility = 'visible';
+        });
+    };
 
     const updatePlayerScore = () => {
         playerScore1.innerHTML = `Score: ${game.players[0].score}`;
         playerScore2.innerHTML = `Score: ${game.players[1].score}`;
-    }
+    };
 
     const showGameWindow = () => {
         window.style.visibility = 'visible';
         entryWindow.remove();
     };
 
-    const getInputValue = () => {
-         game.players[0] = player(playerNick1.value, 'X');
-         game.players[1] = player(playerNick2.value, 'O');
+    const passInputValue = () => {
+        nicknames[0] = playerNick1.value;
+        nicknames[1] = playerNick2.value;
     };
     
     const setNicknames = () => {
@@ -70,26 +81,21 @@ const DOM = (() => {
             };
         });
     };
-    return {renderTable, setNicknames, showGameWindow, getInputValue, updatePlayerScore};
+    return {renderTable, setNicknames, showGameWindow, passInputValue, updatePlayerScore, showWinnerIcon, nicknames};
 })();
 
-// const player1 = player('Jeff', 'X');
-// const player2 = player('Mark', '0');
-
 const game = (() => {
-    let player1;
-    let player2;
-
     const players = [player1, player2];
+
     let roundIsOver = false;
     let steps = 0;
     
     const nextTurn = () => steps++ % 2;
     
-    // const createPlayers = (name1, name2) => {
-    //     players[0] = player(name1, 'X');
-    //     players[1] = player(name2, '0');
-    // }
+    const createPlayers = () => {
+       players[0] = player(1, DOM.nicknames[0], 'X');
+       players[1] = player(2, DOM.nicknames[1], '0');
+    }
 
     const playerMark = () => {
         const player = players[nextTurn()];
@@ -106,6 +112,10 @@ const game = (() => {
     
     const checkCondition = () => {
         const array = gameboard.viewArray;
+
+        for (let n = 0; n <= 2; n++) {
+            if (array[n][0] === 'X' && array[n][1] === 'X' && array[n][2] === 'X');
+        };
         
         for (let n = 0; n <= 2; n++) {
             if (array[n][0] === 'X' && array[n][1] === 'X' && array[n][2] === 'X' || 
@@ -127,7 +137,7 @@ const game = (() => {
     };
     
     const checkWinner = () => {
-        if (checkCondition() === 'X' || 'O' && !roundIsOver) {
+        if ((checkCondition() === 'X' || 'O' ) && !roundIsOver) {
             players.forEach(player => {
                 if (player.symbol === checkCondition()) { 
                     player.score++;
@@ -154,11 +164,12 @@ const game = (() => {
             DOM.renderTable();
         };
             
-        return {checkWinner, mark, restart, players};
+        return {checkWinner, mark, restart, players, createPlayers};
     })();
             
     const beginGame = () => {
         DOM.showGameWindow();
+        game.createPlayers();
         DOM.setNicknames();
         DOM.updatePlayerScore();
         squares.forEach(square => {

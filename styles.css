@@ -64,6 +64,7 @@ body {
     border: 1px solid rgba(183, 0, 255, .2);
     border-radius: 8px;
     background-color: rgb(218, 238, 255);
+    cursor: pointer;
 }
 
 .second-wrapper {
@@ -78,6 +79,17 @@ body {
     display: flex;
     justify-content: center;
     align-self: center;
+    position: relative;
+}
+
+.winner-icon {
+    background-image: url(icons/down-arrow.png);
+    background-size: 100%;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: -135px;
+    visibility: hidden;
 }
 
 .player {
@@ -99,6 +111,7 @@ body {
     width: 500px;
     font-family: Arial, sans-serif;
     color:rgb(183, 0, 255);
+    cursor: pointer;
 }
 
 .table .row {
@@ -138,4 +151,5 @@ body {
     border-radius: 8px;
     border: 1px solid rgba(183, 0, 255, .2);
     background-color: rgb(218, 238, 255);
+    cursor: pointer;
 }

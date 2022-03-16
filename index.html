@@ -18,11 +18,12 @@
                 <label for="player2">Player 2</label>
                 <input id="player2" type="text" placeholder="nickname">
             </div>
-            <button id="start-button" onclick="DOM.getInputValue();">Start Game</button>
+            <button id="start-button" onclick="DOM.passInputValue();">Start Game</button>
         </div>
     </div>
     <div class="second-wrapper">
         <div class="text-wrapper">
+            <div class="winner-icon" id="icon1"></div>
             <div class="player" id="person1"></div>
             <div class="playerScore" id="person1-score">Score:</div>
         </div>
@@ -47,6 +48,7 @@
             <button id="restart-button">Restart</button>
         </div>
         <div class="text-wrapper">
+            <div class="winner-icon" id="icon2"></div>
             <div class="player" id="person2"></div>
             <div class="playerScore" id="person2-score">Score:</div>
         </div>

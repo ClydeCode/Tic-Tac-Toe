@@ -39,7 +39,7 @@ const DOM = (() => {
     const playerNick2 = document.getElementById('player2');
     const playerScore1 = document.getElementById('person1-score');
     const playerScore2 = document.getElementById('person2-score');
-    const winnerIcon = document.querySelector('.winner-icon');
+    const winnerIcon = document.querySelectorAll('.winner-icon');
 
     let playerNickname1, playerNickname2;
     const nicknames = [playerNickname1, playerNickname2];
@@ -48,9 +48,11 @@ const DOM = (() => {
 
     const showWinnerIcon = (id) => {
         winnerIcon.forEach(icon => {
-            if (id === icon.id) icon.style.visibility = 'visible';
+            if (id == icon.id) icon.style.visibility = 'visible';
         });
     };
+
+    const resetWinnerIcons = () => winnerIcon.forEach(icon => icon.style.visibility = 'hidden');
 
     const updatePlayerScore = () => {
         playerScore1.innerHTML = `Score: ${game.players[0].score}`;
@@ -81,7 +83,7 @@ const DOM = (() => {
             };
         });
     };
-    return {renderTable, setNicknames, showGameWindow, passInputValue, updatePlayerScore, showWinnerIcon, nicknames};
+    return {renderTable, setNicknames, showGameWindow, passInputValue, updatePlayerScore, showWinnerIcon, nicknames, resetWinnerIcons};
 })();
 
 const game = (() => {
@@ -94,7 +96,7 @@ const game = (() => {
     
     const createPlayers = () => {
        players[0] = player(1, DOM.nicknames[0], 'X');
-       players[1] = player(2, DOM.nicknames[1], '0');
+       players[1] = player(2, DOM.nicknames[1], 'O');
     }
 
     const playerMark = () => {
@@ -112,10 +114,6 @@ const game = (() => {
     
     const checkCondition = () => {
         const array = gameboard.viewArray;
-
-        for (let n = 0; n <= 2; n++) {
-            if (array[n][0] === 'X' && array[n][1] === 'X' && array[n][2] === 'X');
-        };
         
         for (let n = 0; n <= 2; n++) {
             if (array[n][0] === 'X' && array[n][1] === 'X' && array[n][2] === 'X' || 
@@ -141,6 +139,7 @@ const game = (() => {
             players.forEach(player => {
                 if (player.symbol === checkCondition()) { 
                     player.score++;
+                    DOM.showWinnerIcon(player.id);
                     roundIsOver = true;
                     return console.log(`${player.name} won!`);
                 };
@@ -156,6 +155,8 @@ const game = (() => {
         for (let row = 0; row <= 2; row++) 
             for (let column = 0; column <= 2; column++) 
             gameboard.check(row, column, '');
+
+            DOM.resetWinnerIcons();
                 
             players.forEach(player => player.moves = 0);
                 

@@ -2,6 +2,7 @@ const squares = document.querySelectorAll('.column');
 const person1 = document.querySelector('#person1');
 const person2 = document.querySelector('#person2');
 const button = document.querySelector('#start-button')
+const restartButon = document.querySelector('#restart-button')
 
 const gameboard = (() => {
     let array = [
@@ -35,8 +36,15 @@ const DOM = (() => {
     const window = document.querySelector('.second-wrapper');
     const playerNick1 = document.getElementById('player1');
     const playerNick2 = document.getElementById('player2');
+    const playerScore1 = document.getElementById('person1-score');
+    const playerScore2 = document.getElementById('person2-score');
 
     const persons = [person1, person2];
+
+    const updatePlayerScore = () => {
+        playerScore1.innerHTML = `Score: ${game.players[0].score}`;
+        playerScore2.innerHTML = `Score: ${game.players[1].score}`;
+    }
 
     const showGameWindow = () => {
         window.style.visibility = 'visible';
@@ -45,8 +53,7 @@ const DOM = (() => {
 
     const getInputValue = () => {
          game.players[0] = player(playerNick1.value, 'X');
-         game.players[1] = player(playerNick2.value, '0');
-         console.log(playerNick1.value)
+         game.players[1] = player(playerNick2.value, 'O');
     };
     
     const setNicknames = () => {
@@ -63,7 +70,7 @@ const DOM = (() => {
             };
         });
     };
-    return {renderTable, setNicknames, showGameWindow, getInputValue};
+    return {renderTable, setNicknames, showGameWindow, getInputValue, updatePlayerScore};
 })();
 
 // const player1 = player('Jeff', 'X');
@@ -102,16 +109,16 @@ const game = (() => {
         
         for (let n = 0; n <= 2; n++) {
             if (array[n][0] === 'X' && array[n][1] === 'X' && array[n][2] === 'X' || 
-            array[0][n] === 'X' && array[1][n] === 'X' && array[2][n] === 'X' || 
-            array[0][0] === 'X' && array[1][1] === 'X' && array[2][2] === 'X' ||
-            array[0][2] === 'X' && array[1][1] === 'X' && array[2][0] === 'X') {
-                return 'X';
+                array[0][n] === 'X' && array[1][n] === 'X' && array[2][n] === 'X' || 
+                array[0][0] === 'X' && array[1][1] === 'X' && array[2][2] === 'X' ||
+                array[0][2] === 'X' && array[1][1] === 'X' && array[2][0] === 'X') {
+                    return 'X';
             };
-            if (array[n][0] === '0' && array[n][1] === '0' && array[n][2] === '0' ||
-            array[0][n] === '0' && array[1][n] === '0' && array[2][n] === '0' ||
-            array[0][0] === '0' && array[1][1] === '0' && array[2][2] === '0' ||
-            array[0][2] === '0' && array[1][1] === '0' && array[2][0] === '0') {
-                return '0';
+            if (array[n][0] === 'O' && array[n][1] === 'O' && array[n][2] === 'O' ||
+                array[0][n] === 'O' && array[1][n] === 'O' && array[2][n] === 'O' ||
+                array[0][0] === 'O' && array[1][1] === 'O' && array[2][2] === 'O' ||
+                array[0][2] === 'O' && array[1][1] === 'O' && array[2][0] === 'O') {
+                    return 'O';
             };
         };
         if (players[0].moves + players[1].moves === 9) return 'tie';
@@ -120,7 +127,7 @@ const game = (() => {
     };
     
     const checkWinner = () => {
-        if (checkCondition() === 'X' || '0' && !roundIsOver) {
+        if (checkCondition() === 'X' || 'O' && !roundIsOver) {
             players.forEach(player => {
                 if (player.symbol === checkCondition()) { 
                     player.score++;
@@ -153,15 +160,17 @@ const game = (() => {
     const beginGame = () => {
         DOM.showGameWindow();
         DOM.setNicknames();
+        DOM.updatePlayerScore();
         squares.forEach(square => {
             square.addEventListener('click', () => {
                 game.mark(square);
                 DOM.renderTable();
                 game.checkWinner();
+                DOM.updatePlayerScore();
         });
     });
 };
 
 button.addEventListener('click', () => beginGame());    
     
-    
+restartButon.addEventListener('click', () => game.restart());

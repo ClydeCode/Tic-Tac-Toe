@@ -87,6 +87,7 @@ const DOM = (() => {
 })();
 
 const game = (() => {
+    let player1, player2;
     const players = [player1, player2];
 
     let roundIsOver = false;
